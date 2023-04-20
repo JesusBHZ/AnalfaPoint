@@ -20,7 +20,9 @@ import pymysql
 import uvicorn
 from dotenv import load_dotenv
 import os
-
+from fastapi.middleware.cors import CORSMiddleware
+from tortoise import Tortoise, fields, run_async
+from tortoise.contrib.fastapi import register_tortoise
 
 
 # uvicorn app.main:app --host 192.168.8.28 --port 8000
@@ -39,6 +41,21 @@ db = mysql.connector.connect(
 
 # FastAPI app
 app = FastAPI()
+
+
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 description = """
  ---
